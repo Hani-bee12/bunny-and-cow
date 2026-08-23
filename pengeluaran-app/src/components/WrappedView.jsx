@@ -41,8 +41,8 @@ function buildSlides({ transactions, categories, mode, year, month }) {
       catSums[cat?.id].value += amt
       const mk = d.getMonth()
       monthSums[mk] = (monthSums[mk] || 0) + amt
+      if (!biggestTx || amt > biggestTx.amount) biggestTx = { amount: amt, catName: cat?.name, catIcon: cat?.icon }
     }
-    if (!biggestTx || amt > biggestTx.amount) biggestTx = { amount: amt, catName: cat?.name, catIcon: cat?.icon }
   }
 
   const sortedCats = Object.values(catSums).sort((a, b) => b.value - a.value)
