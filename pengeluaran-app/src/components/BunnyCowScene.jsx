@@ -41,13 +41,13 @@ export default function BunnyCowScene({ color = '#F45B9E', piggyProp = '✨', co
 
       {/* Bunny (girl) */}
       <g className="bc-bounce-a">
-        <ellipse cx="100" cy="240" rx="34" ry="30" fill="#E86FA0" />
-        <ellipse cx="76" cy="249" rx="10" ry="16" fill="#FFFAFA" />
-        <ellipse cx="124" cy="249" rx="10" ry="16" fill="#FFFAFA" />
-        <path d="M85 60 Q78 4 60 0 Q52 2 56 16 Q62 54 80 84 Z" fill="#FFFAFA" stroke="#F0B8CE" strokeWidth="2.5" />
-        <path d="M84 55 Q80 18 66 12 Q62 18 66 28 Q70 50 82 70 Z" fill="#FFC9DB" />
-        <path d="M115 60 Q122 4 140 0 Q148 2 144 16 Q138 54 120 84 Z" fill="#FFFAFA" stroke="#F0B8CE" strokeWidth="2.5" />
-        <path d="M116 55 Q120 18 134 12 Q138 18 134 28 Q130 50 118 70 Z" fill="#FFC9DB" />
+        <ellipse cx="100" cy="220" rx="34" ry="30" fill="#E86FA0" />
+        <ellipse cx="76" cy="229" rx="10" ry="16" fill="#FFFAFA" />
+        <ellipse cx="124" cy="229" rx="10" ry="16" fill="#FFFAFA" />
+        <ellipse cx="76" cy="55" rx="15" ry="42" fill="#FFFAFA" stroke="#F0B8CE" strokeWidth="2.5" />
+        <ellipse cx="76" cy="62" rx="7" ry="27" fill="#FFC9DB" />
+        <ellipse cx="124" cy="55" rx="15" ry="42" fill="#FFFAFA" stroke="#F0B8CE" strokeWidth="2.5" />
+        <ellipse cx="124" cy="62" rx="7" ry="27" fill="#FFC9DB" />
         <circle cx="100" cy="140" r="58" fill="#FFFAFA" stroke="#F0B8CE" strokeWidth="2.5" />
         <path d="M66 124 Q74 116 84 122" stroke="#8A6B78" strokeWidth="2.2" fill="none" strokeLinecap="round" />
         <path d="M134 124 Q126 116 116 122" stroke="#8A6B78" strokeWidth="2.2" fill="none" strokeLinecap="round" />
@@ -66,15 +66,14 @@ export default function BunnyCowScene({ color = '#F45B9E', piggyProp = '✨', co
 
       {/* Cow (boy) */}
       <g className="bc-bounce-b">
-        <ellipse cx="283" cy="243" rx="36" ry="30" fill="#4FA8E0" />
-        <ellipse cx="257" cy="251" rx="10" ry="16" fill="#FFFFFF" />
-        <ellipse cx="309" cy="251" rx="10" ry="16" fill="#FFFFFF" />
+        <ellipse cx="283" cy="224" rx="36" ry="30" fill="#4FA8E0" />
+        <ellipse cx="257" cy="232" rx="10" ry="16" fill="#FFFFFF" />
+        <ellipse cx="309" cy="232" rx="10" ry="16" fill="#FFFFFF" />
         <ellipse cx="256" cy="86" rx="15" ry="20" fill="#FFFFFF" stroke="#B9D8F0" strokeWidth="2.5" />
         <ellipse cx="310" cy="86" rx="15" ry="20" fill="#FFFFFF" stroke="#B9D8F0" strokeWidth="2.5" />
         <polygon points="248,80 240,58 260,70" fill="#DCEEFB" stroke="#B9D8F0" strokeWidth="2.5" />
         <polygon points="318,80 326,58 306,70" fill="#DCEEFB" stroke="#B9D8F0" strokeWidth="2.5" />
         <circle cx="283" cy="142" r="60" fill="#FFFFFF" stroke="#C7E1F5" strokeWidth="2.5" />
-        <path d="M245 120 Q253 110 265 118" stroke="#4A3540" strokeWidth="2.8" fill="none" strokeLinecap="round" opacity="0.55" />
         <ellipse cx="255" cy="122" rx="16" ry="20" fill="#BFDDF2" />
         <ellipse cx="270" cy="158" rx="33" ry="25" fill="#FBD3DD" />
         <ellipse cx="264" cy="142" rx="11" ry="14" fill="#3A3238" />
