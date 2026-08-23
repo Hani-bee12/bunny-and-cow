@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { formatRupiah, formatRupiahShort, MONTH_NAMES } from '../lib/format'
+import { PEOPLE } from '../config/people'
 
 const NECESSITY_CATEGORIES = ['Kebutuhan Pokok', 'Tagihan', 'Cicilan']
 const GOAL_ICONS = ['🎯', '✈️', '🏍️', '🏠', '💍', '👶', '🎓', '🚗', '📱', '🏝️']
@@ -17,6 +18,7 @@ export default function AssetGoals({ transactions, categories, startingBalances,
   const [contributingGoal, setContributingGoal] = useState(null)
   const [contribInput, setContribInput] = useState('')
   const [analysisGoal, setAnalysisGoal] = useState(null)
+  const [assetPersonToggle, setAssetPersonToggle] = useState('all')
 
   const allocationCategories = useMemo(
     () => categories.filter((c) => c.is_allocation),
@@ -31,13 +33,14 @@ export default function AssetGoals({ transactions, categories, startingBalances,
 
   const assetTotals = useMemo(() => {
     return allocationCategories.map((cat) => {
-      const start = balanceMap[cat.id] || 0
+      const start = assetPersonToggle === 'all' ? (balanceMap[cat.id] || 0) : 0
       const accumulated = transactions
         .filter((t) => t.category_id === cat.id && t.type === 'expense')
+        .filter((t) => assetPersonToggle === 'all' || t.person === assetPersonToggle)
         .reduce((sum, t) => sum + Number(t.amount), 0)
       return { ...cat, start, accumulated, total: start + accumulated }
     })
-  }, [allocationCategories, balanceMap, transactions])
+  }, [allocationCategories, balanceMap, transactions, assetPersonToggle])
 
   // Average monthly allocation savings rate (last 3 months with data)
   const avgMonthlySavingRate = useMemo(() => {
@@ -105,6 +108,24 @@ export default function AssetGoals({ transactions, categories, startingBalances,
       <div className="section-head" style={{ marginTop: 0 }}>
         <h3>🐖 Aset</h3>
       </div>
+
+      <div className="person-toggle" style={{ marginBottom: 14 }}>
+        <button
+          type="button"
+          className={assetPersonToggle === 'all' ? 'active all' : ''}
+          onClick={() => setAssetPersonToggle('all')}
+        ><span className="emo">👫</span> Semua</button>
+        {PEOPLE.map((p) => (
+          <button
+            type="button"
+            key={p.id}
+            className={assetPersonToggle === p.id ? 'active' : ''}
+            style={assetPersonToggle === p.id ? { background: p.color } : {}}
+            onClick={() => setAssetPersonToggle(p.id)}
+          ><span className="emo">{p.icon}</span> {p.name}</button>
+        ))}
+      </div>
+
       <div className="asset-grid">
         {assetTotals.map((cat) => (
           <div key={cat.id} className="asset-card" style={{ background: `linear-gradient(150deg, ${cat.color}, ${cat.color}CC)` }}>
@@ -112,26 +133,30 @@ export default function AssetGoals({ transactions, categories, startingBalances,
             <div className="asset-name">{cat.icon} {cat.name}</div>
             <div className="asset-total num">{formatRupiah(cat.total)}</div>
             <div className="asset-breakdown">
-              Awal {formatRupiahShort(cat.start)} + Terkumpul {formatRupiahShort(cat.accumulated)}
+              {assetPersonToggle === 'all'
+                ? `Awal ${formatRupiahShort(cat.start)} + Terkumpul ${formatRupiahShort(cat.accumulated)}`
+                : `Kontribusi ${PEOPLE.find((p) => p.id === assetPersonToggle)?.name} aja`}
             </div>
-            {editingBalanceId === cat.id ? (
-              <div className="asset-edit-row">
-                <input
-                  type="number"
-                  value={balanceInput}
-                  onChange={(e) => setBalanceInput(e.target.value)}
-                  placeholder="Saldo awal"
-                />
-                <button onClick={async () => {
-                  await actions.setStartingBalance(cat.id, Number(balanceInput) || 0)
-                  setEditingBalanceId(null)
-                }}>✓</button>
-                <button onClick={() => setEditingBalanceId(null)}>✕</button>
-              </div>
-            ) : (
-              <button className="asset-edit-link" onClick={() => { setEditingBalanceId(cat.id); setBalanceInput(String(cat.start)) }}>
-                ✏️ Atur saldo awal
-              </button>
+            {assetPersonToggle === 'all' && (
+              editingBalanceId === cat.id ? (
+                <div className="asset-edit-row">
+                  <input
+                    type="number"
+                    value={balanceInput}
+                    onChange={(e) => setBalanceInput(e.target.value)}
+                    placeholder="Saldo awal"
+                  />
+                  <button onClick={async () => {
+                    await actions.setStartingBalance(cat.id, Number(balanceInput) || 0)
+                    setEditingBalanceId(null)
+                  }}>✓</button>
+                  <button onClick={() => setEditingBalanceId(null)}>✕</button>
+                </div>
+              ) : (
+                <button className="asset-edit-link" onClick={() => { setEditingBalanceId(cat.id); setBalanceInput(String(cat.start)) }}>
+                  ✏️ Atur saldo awal
+                </button>
+              )
             )}
           </div>
         ))}
