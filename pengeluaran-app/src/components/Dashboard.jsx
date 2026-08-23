@@ -172,12 +172,13 @@ export default function Dashboard({ transactions, categories, wallets, year, mon
   const walletBalances = useMemo(() => {
     const bal = {}
     wallets.forEach((w) => { bal[w.id] = 0 })
-    for (const t of transactions) {
+    const source = personToggle === 'all' ? transactions : transactions.filter((t) => t.person === personToggle)
+    for (const t of source) {
       if (!(t.wallet_id in bal)) continue
       bal[t.wallet_id] += t.type === 'income' ? Number(t.amount) : -Number(t.amount)
     }
     return bal
-  }, [transactions, wallets])
+  }, [transactions, wallets, personToggle])
 
   return (
     <div>
